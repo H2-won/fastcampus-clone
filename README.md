@@ -20,12 +20,12 @@
 ## Script
 
 ```
-$ yarn dev
+$ npm run dev
 ```
 
 ```
-$ yarn build
-$ yarn deploy
+$ npm run build
+$ npm run deploy
 ```
 
 ## 테스트

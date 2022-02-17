@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "docker": "docker build . -t fastcampus-site",
     "docker:start": "docker run -p 3000:3000 fastcampus-site"
   },

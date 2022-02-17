@@ -1,14 +1,8 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Deploy to Amazon ECS
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [created]
 
 env:
   AWS_REGION: us-west-1 # set this to your preferred AWS region, e.g. us-west-1
@@ -22,11 +16,17 @@ env:
     fastcampus-site # set this to the name of the container in the
     # containerDefinitions section of your task definition
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: production
+    permissions:
+      packages: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -55,7 +55,6 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@97587c9d45a4930bf0e3da8dd2feb2a463cf4a3a
